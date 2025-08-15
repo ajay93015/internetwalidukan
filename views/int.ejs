@@ -1,0 +1,388 @@
+
+ <%-include("header")-%>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-card">
+      <div class="sparkle" aria-hidden="true"></div>
+      <h1>
+        Find <span style="background:linear-gradient(135deg,var(--brand),var(--brand-2)); -webkit-background-clip:text; background-clip:text; color:transparent;clear:right;">local stores</span> that deliver
+        <span class="type">Fresh Cookies, Chocolate Barfi, Gulab Jamun, groceries, medicine, electronics & more</span>
+      </h1>
+      <p>Search by store name, area, category or service (e.g., “print”, “UPI accepted”). Hardcoded demo data—you can plug your DB later.</p>
+
+      <div class="toolbar" style="margin-top:20px">
+        <div class="search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-4.2-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+          <input id="q" placeholder="Search stores, areas, categories..." autofocus>
+          <button class="btn" onclick="applyFilters()">Search</button>
+        </div>
+        <div class="chips" id="categories">
+          <button class="chip active" data-cat="all" onclick="selectCategory(this)">All</button>
+          <button class="chip" data-cat="gulab jamun" onclick="selectCategory(this)">Gulab Jamun</button>
+          <button class="chip" data-cat="chocolate" onclick="selectCategory(this)">Chocolate Barfi</button>
+          <button class="chip" data-cat="sweets" onclick="selectCategory(this)">Sweets</button>
+          <button class="chip" data-cat="grocery" onclick="selectCategory(this)">Grocery</button>
+          <button class="chip" data-cat="mobile" onclick="selectCategory(this)">Mobile & Repair</button>
+          <button class="chip" data-cat="pharmacy" onclick="selectCategory(this)">Pharmacy</button>
+          <button class="chip" data-cat="electronics" onclick="selectCategory(this)">Electronics</button>
+          <button class="chip" data-cat="print" onclick="selectCategory(this)">Print & Stationery</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stores Grid -->
+  <main class="wrap" id="stores">
+<h1>Products & Items</h1></br>
+    <div class="grid" id="grid">
+
+
+<!-- Gulab Jamun -->
+<article class="card" data-price="120" data-id="p1"  data-cat="gulab jamun" data-meta="gulab jamun rasgulla barhi sweets">
+    <div class="thumb" style="background: url('https://thumbs.dreamstime.com/b/indian-sweets-gulab-jamun-14186405.jpg?w=360') center/cover no-repeat;">
+        Gulab Jamun
+    </div>
+    <div class="body">
+        <div class="title">
+            <h3>Gulab Jamun</h3>
+            <span class="badge">₹200/kg</span>
+        </div>
+        <div class="meta">
+            <span>🍬 Soft & juicy sweet</span>
+            <span>📍 Barhi Sweet House</span>
+        </div>
+        <div class="tags">
+            <span class="tag">Fresh</span>
+            <span class="tag">Sweet</span>
+        </div>
+        <div class="actions">
+          <button class="add-to-cart">🛒 Add to Cart</button>  <a class="btn ghost" href="https://wa.me/919876543210" target="_blank">Order</a>
+        </div>
+    </div>
+</article>
+
+<!-- Chocolate Barfi -->
+<article class="card" data-cat="chocolate" data-meta="chocolate barfi mithai barhi">
+    <div class="thumb" style="background: url('https://bakewithshivesh.com/wp-content/uploads/2022/10/IMG-0624-1229x1536.jpg') center/cover no-repeat;">
+        Chocolate Barfi
+    </div>
+    <div class="body">
+        <div class="title">
+            <h3>Chocolate Barfi</h3>
+            <span class="badge">₹300/kg</span>
+        </div>
+        <div class="meta">
+            <span>🍫 Sweet with chocolate twist</span>
+            <span>📍 Barhi Sweet House</span>
+        </div>
+        <div class="tags">
+            <span class="tag">Chocolate</span>
+            <span class="tag">Sweet</span>
+        </div>
+        <div class="actions">
+            <button class="add-to-cart">🛒 Add to Cart</button> <a class="btn ghost" href="https://wa.me/919876543210" target="_blank">Order</a>
+        </div>
+    </div>
+</article>
+
+<!-- Cookies -->
+<article class="card" data-cat="sweets" data-meta="cookies biscuits bakery barhi">
+    <div class="thumb" style="background: url('https://images.pexels.com/photos/230325/pexels-photo-230325.jpeg?auto=compress&cs=tinysrgb&w=800') center/cover no-repeat;">
+        Fresh Cookies
+    </div>
+    <div class="body">
+        <div class="title">
+            <h3>Fresh Cookies</h3>
+            <span class="badge">₹150/pack</span>
+        </div>
+        <div class="meta">
+            <span>🍪 Baked daily</span>
+            <span>📍 Barhi Bakery</span>
+        </div>
+        <div class="tags">
+            <span class="tag">Crispy</span>
+            <span class="tag">Sweet</span>
+        </div>
+        <div class="actions">
+           <button class="add-to-cart">🛒 Add to Cart</button>  <a class="btn ghost" href="https://wa.me/919876543210" target="_blank">Order</a>
+        </div>
+    </div>
+</article>
+
+<!-- Lassi -->
+<article class="card" data-cat="sweets" data-meta="lassi sweet drink barhi">
+    <div class="thumb" style="background: url('https://i.ytimg.com/vi/tziQpzMX8Uk/maxresdefault.jpg') center/cover no-repeat;">
+        Sweet Lassi
+    </div>
+    <div class="body">
+        <div class="title">
+            <h3>Sweet Lassi</h3>
+            <span class="badge">₹50/glass</span>
+        </div>
+        <div class="meta">
+            <span>🥛 Refreshing drink</span>
+            <span>📍 Barhi Dairy</span>
+        </div>
+        <div class="tags">
+            <span class="tag">Cold</span>
+            <span class="tag">Sweet</span>
+        </div>
+        <div class="actions">
+           <button class="add-to-cart">🛒 Add to Cart</button>  <a class="btn ghost" href="https://wa.me/919876543210" target="_blank">Order</a>
+        </div>
+    </div>
+</article>
+
+<!-- Kulfi -->
+<article class="card" data-cat="sweets" data-meta="kulfi ice cream barhi">
+    <div class="thumb" style="background: url('https://sinfullyspicy.com/wp-content/uploads/2022/05/1-4-1024x1536.jpg') center/cover no-repeat;">
+        Kulfi
+    </div>
+    <div class="body">
+        <div class="title">
+            <h3>Kulfi</h3>
+            <span class="badge">₹40/piece</span>
+        </div>
+        <div class="meta">
+            <span>🍨 Creamy frozen dessert</span>
+            <span>📍 Barhi Ice Cream</span>
+        </div>
+        <div class="tags">
+            <span class="tag">Cold</span>
+            <span class="tag">Sweet</span>
+        </div>
+        <div class="actions">
+            <button class="add-to-cart">🛒 Add to Cart</button> <a class="btn ghost" href="https://wa.me/919876543210" target="_blank">Order</a>
+        </div>
+    </div>
+</article>
+</br>
+</div>
+      <!-- Each .card represents one store. Duplicate & edit to add more. -->
+<h1>Stores</h1></br>
+    <div class="grid" id="grid">
+      <article class="card" data-cat="grocery" data-meta="grocery food snacks dairy upi delivery khanna barhi">
+        <div class="thumb" style="background: url('/store1.jpg') center/cover no-repeat;">FreshMart Grocery</div>
+        <div class="body">
+          <div class="title">
+            <h3>FreshMart Grocery</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Ward 15, Khanna</span>
+            <span>⏰ 8am – 10pm</span>
+            <span>💳 UPI Accepted</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Milk & Dairy</span>
+            <span class="tag">Snacks</span>
+            <span class="tag">Home Delivery</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('FreshMart Grocery','Grocery & daily needs','https://maps.google.com/?q=FreshMart+Grocery+Khanna','tel:+910000000000','https://wa.me/910000000000')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=FreshMart+Grocery+Khanna" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="mobile" data-meta="mobile repair accessories tempered glass charging data cable khanna barhi">
+        <div class="thumb" style="background: url('/store2.jpg') center/cover no-repeat;">Khanna Mobile Care</div>
+        <div class="body">
+          <div class="title">
+            <h3>Khanna Mobile Care</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Near Bus Stand, Khanna</span>
+            <span>⏰ 10am – 9pm</span>
+            <span>🔧 Repairs</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Screen Guard</span>
+            <span class="tag">Covers</span>
+            <span class="tag">Fast Charging</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('Khanna Mobile Care','Mobile accessories & repair','https://maps.google.com/?q=Khanna+Mobile+Care','tel:+919876543210','https://wa.me/919876543210')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=Khanna+Mobile+Care" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="print" data-meta="print xerox photocopy spiral binding lamination id card photo barhi">
+        <div class="thumb" style="background: url('/store3.jpg') center/cover no-repeat;">Barhi Stationery & Prints</div>
+        <div class="body">
+          <div class="title">
+            <h3>Barhi Stationery &amp; Prints</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Main Market, Barhi</span>
+            <span>⏰ 9am – 8pm</span>
+            <span>🖨️ Prints &amp; Xerox</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Online Form</span>
+            <span class="tag">Photo Print</span>
+            <span class="tag">Lamination</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('Barhi Stationery & Prints','Print, xerox & form filling','https://maps.google.com/?q=Barhi+Stationery+and+Prints','tel:+911234567890','https://wa.me/911234567890')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=Barhi+Stationery+and+Prints" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="electronics" data-meta="electronics tv fan mixer iron barhi khanna">
+        <div class="thumb">Sharma Electronics</div>
+        <div class="body">
+          <div class="title">
+            <h3>Sharma Electronics</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Market Road, Khanna</span>
+            <span>⏰ 10am – 8:30pm</span>
+            <span>💳 Card & UPI</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Fans</span>
+            <span class="tag">Mixers</span>
+            <span class="tag">LED TVs</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('Sharma Electronics','Electronics & appliances','https://maps.google.com/?q=Sharma+Electronics+Khanna','tel:+919111111111','https://wa.me/919111111111')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=Sharma+Electronics+Khanna" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="pharmacy" data-meta="medicine pharmacy injection first aid barhi 24x7">
+        <div class="thumb">City Medico</div>
+        <div class="body">
+          <div class="title">
+            <h3>City Medico Pharmacy</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Near Hospital, Barhi</span>
+            <span>⏰ 7am – 11pm</span>
+            <span>🚚 Home Delivery</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Prescription</span>
+            <span class="tag">OTC</span>
+            <span class="tag">BP/Sugar Check</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('City Medico Pharmacy','Medicines & health essentials','https://maps.google.com/?q=City+Medico+Barhi','tel:+919222222222','https://wa.me/919222222222')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=City+Medico+Barhi" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="grocery" data-meta="kirana ration pulses rice oil ward 15 upi">
+        <div class="thumb">Pandey General Store</div>
+        <div class="body">
+          <div class="title">
+            <h3>Pandey General Store</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Ward 15, Khanna</span>
+            <span>⏰ 7:30am – 9:30pm</span>
+            <span>💳 UPI Accepted</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Atta • Dal • Chawal</span>
+            <span class="tag">Toiletries</span>
+            <span class="tag">Snacks</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('Pandey General Store','Kirana & daily needs','https://maps.google.com/?q=Pandey+General+Store+Khanna','tel:+919333333333','https://wa.me/919333333333')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=Pandey+General+Store+Khanna" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Modal for Store Details -->
+  <dialog id="storeModal">
+    <div class="modal-head">
+      <strong id="mTitle">Store Name</strong>
+      <button class="close" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <p id="mDesc" style="margin:0 0 10px; color:var(--muted)">Description</p>
+      <div style="display:flex; gap:8px; flex-wrap:wrap">
+        <a id="mMap" class="btn" target="_blank" rel="noreferrer">Open in Maps</a>
+        <a id="mCall" class="btn ghost">Call</a>
+        <a id="mWa" class="btn ghost" target="_blank" rel="noreferrer">WhatsApp</a>
+      </div>
+    </div>
+  </dialog>
+<%-include("footer")-%>
+  <script>
+    // Year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Category filter
+    let currentCategory = 'all';
+    function selectCategory(btn){
+      document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = btn.dataset.cat;
+      applyFilters();
+    }
+
+    // Search
+    const q = document.getElementById('q');
+    q.addEventListener('input', ()=> applyFilters());
+
+    function applyFilters(){
+      const term = q.value.trim().toLowerCase();
+      const cards = [...document.querySelectorAll('.card')];
+      let visible = 0;
+      cards.forEach(card=>{
+        const cat = card.getAttribute('data-cat');
+        const meta = card.getAttribute('data-meta').toLowerCase();
+        const inCat = currentCategory==='all' || currentCategory===cat;
+        const inText = !term || meta.includes(term) || card.querySelector('h3').textContent.toLowerCase().includes(term);
+        const show = inCat && inText;
+        card.style.display = show ? '' : 'none';
+        if(show) visible++;
+      });
+      if(!document.getElementById('empty')){
+        const em = document.createElement('div');
+        em.id='empty';
+        em.style.cssText='grid-column:span 12; text-align:center; padding:28px; color:var(--muted); border:1px dashed rgba(255,255,255,.08); border-radius:16px; display:none;';
+        em.textContent = 'No stores found. Try a different search.';
+        document.getElementById('grid').appendChild(em);
+      }
+      document.getElementById('empty').style.display = visible? 'none':'block';
+    }
+
+    // Modal controls
+    const modal = document.getElementById('storeModal');
+    function openStore(title, desc, map, tel, wa){
+      document.getElementById('mTitle').textContent = title;
+      document.getElementById('mDesc').textContent = desc;
+      document.getElementById('mMap').href = map;
+      document.getElementById('mCall').href = tel;
+      document.getElementById('mWa').href = wa;
+      if(typeof modal.showModal === 'function') modal.showModal(); else alert(title + '\n' + desc);
+    }
+
+    function closeModal(){ modal.close(); }
+
+    // Keyboard: close modal on Esc
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && modal.open) closeModal(); });
+
+    // Initial filter to ensure empty state works
+    applyFilters();
+  </script>
+</body>
+</html>

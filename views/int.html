@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>InternetWaliDukan — Local Stores Near You</title>
+  <meta name="description" content="Discover nearby stores and services on InternetWaliDukan." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b1220;
+      --card: #0f172a;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --brand: #6ee7ff;       /* cyan */
+      --brand-2: #a78bfa;     /* purple */
+      --accent: #22d3ee;
+      --ok: #34d399;
+      --danger: #f43f5e;
+      --warning: #f59e0b;
+      --ring: rgba(110,231,255,.35);
+      --glass: rgba(255,255,255,.04);
+    }
+
+    *{box-sizing: border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(103,232,249,.18), transparent 60%),
+                  radial-gradient(900px 480px at 90% 10%, rgba(167,139,250,.18), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      letter-spacing:.1px;
+    }
+
+    /* Header */
+    .nav{
+      position:sticky; top:0; z-index:30;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(9,12,20,.85), rgba(9,12,20,.55));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-inner{
+      max-width:1100px; margin:auto; padding:14px 20px; display:flex; align-items:center; gap:16px;
+    }
+    .logo{
+      font-weight:800; letter-spacing:.4px; font-size:1.2rem; display:flex; align-items:center; gap:8px;
+      cursor:pointer; user-select:none;
+    }
+    .logo-badge{display:inline-grid; place-items:center; width:28px; height:28px; border-radius:9px; background:linear-gradient(135deg,var(--brand),var(--brand-2)); font-weight:800; color:#0b1220}
+    .nav-links{margin-left:auto; display:flex; gap:16px; align-items:center}
+    .nav-links a{
+      text-decoration:none; color:var(--text); opacity:.8; padding:8px 12px; border-radius:12px;
+      transition:.25s ease; border:1px solid transparent;
+    }
+    .nav-links a:hover{opacity:1; border-color: rgba(255,255,255,.08); background:var(--glass)}
+    .cta{
+      background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#0b1220 !important; font-weight:700;
+      border:none !important;
+    }
+
+    /* Hero */
+    .hero{ max-width:1100px; margin:28px auto 0; padding:36px 20px 8px; display:grid; gap:24px; }
+    .hero-card{
+      position:relative; overflow:hidden; border-radius:24px; padding:32px; background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .sparkle{position:absolute; inset:-2px; background: conic-gradient(from 180deg at 50% 50%, rgba(110,231,255,.2), rgba(167,139,250,.2), transparent 30% 70%, rgba(110,231,255,.2)); filter: blur(35px); opacity:.35;}
+    .hero h1{margin:0; font-size:clamp(28px, 5vw, 46px); line-height:1.1}
+    .hero p{margin:6px 0 0; color:var(--muted)}
+
+    /* Typewriter */
+    .type{ display:inline-block; border-right:2px solid var(--accent); white-space:nowrap; overflow:hidden;
+      width:0; animation: typing 3.8s steps(28,end) forwards, blink 1.1s step-end infinite; }
+    @keyframes typing{ to{ width:100% } }
+    @keyframes blink{ 50%{ border-color:transparent } }
+
+    /* Search + Filters */
+    .toolbar{ display:grid; grid-template-columns: 1.2fr .8fr; gap:14px; margin-top:18px }
+    .search{ display:flex; gap:10px; align-items:center; background:var(--card); padding:10px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.06)}
+    .search input{ flex:1; background:transparent; border:none; outline:none; color:var(--text); font-size:15px }
+    .chips{ display:flex; flex-wrap:wrap; gap:8px; align-items:center }
+    .chip{ padding:8px 12px; border-radius:999px; background:var(--glass); border:1px solid rgba(255,255,255,.08); font-size:13px; cursor:pointer; opacity:.9; }
+    .chip.active{ background:linear-gradient(135deg, rgba(110,231,255,.25), rgba(167,139,250,.25)); border-color:var(--ring) }
+
+    /* Grid */
+    .wrap{ max-width:1100px; margin:0 auto; padding:10px 20px 60px }
+    .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap:18px; margin-top:18px }
+    .card{
+      grid-column: span 4; min-width:0; background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:20px;
+      overflow:hidden; position:relative; transition:transform .25s ease, box-shadow .25s ease;
+    }
+    .card:hover{ transform: translateY(-4px); box-shadow: 0 16px 30px rgba(0,0,0,.35) }
+    .thumb{ aspect-ratio: 16/9; background: linear-gradient(135deg, rgba(110,231,255,.25), rgba(167,139,250,.25)); display:grid; place-items:center; font-weight:800; letter-spacing:.6px; font-size:22px }
+    .body{ padding:14px 14px 12px }
+    .title{ display:flex; align-items:center; justify-content:space-between; gap:10px }
+    .title h3{ margin:0; font-size:18px }
+    .badge{ font-size:11px; padding:6px 9px; border-radius:999px; background:rgba(52,211,153,.18); border:1px solid rgba(52,211,153,.35) }
+    .meta{ margin-top:6px; display:flex; gap:8px; flex-wrap:wrap; color:var(--muted); font-size:13px }
+    .tags{ margin-top:10px; display:flex; gap:8px; flex-wrap:wrap }
+    .tag{ font-size:11px; padding:6px 9px; border-radius:999px; background:var(--glass); border:1px solid rgba(255,255,255,.08) }
+    .actions{ margin-top:12px; display:flex; gap:8px; flex-wrap:wrap }
+    .btn{ padding:10px 12px; font-weight:700; border-radius:12px; background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0b1220; border:none; cursor:pointer }
+    .btn.ghost{ background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.12) }
+
+    /* Footer */
+    footer{ border-top:1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); }
+    .footer-inner{ max-width:1100px; margin:auto; padding:22px 20px; display:flex; align-items:center; gap:10px; justify-content:space-between; color:var(--muted) }
+    .founder{ color:var(--text) }
+
+    /* Modal */
+    dialog{ border:none; border-radius:20px; padding:0; background:var(--card); color:var(--text); width:min(560px, 92vw); box-shadow:0 20px 60px rgba(0,0,0,.55); }
+    .modal-head{ padding:16px 18px; border-bottom:1px solid rgba(255,255,255,.06); display:flex; align-items:center; justify-content:space-between }
+    .modal-body{ padding:18px }
+    .close{ background:transparent; border:1px solid rgba(255,255,255,.12); color:var(--text); padding:8px 10px; border-radius:10px; cursor:pointer }
+
+    /* Responsive */
+    @media (max-width: 960px){ .card{ grid-column: span 6 } .toolbar{ grid-template-columns: 1fr } }
+    @media (max-width: 640px){ .card{ grid-column: span 12 } .nav-links{ display:none } .hero-card{ padding:22px } }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Go to top">
+        <span class="logo-badge">I</span> InternetWaliDukan
+      </div>
+      <div class="nav-links">
+        <a href="#stores">Stores</a>
+        <a href="#categories">Categories</a>
+        <a href="#contact" class="cta">List Your Store</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-card">
+      <div class="sparkle" aria-hidden="true"></div>
+      <h1>
+        Find <span style="background:linear-gradient(135deg,var(--brand),var(--brand-2)); -webkit-background-clip:text; background-clip:text; color:transparent;">local stores</span> that deliver
+        <span class="type">groceries, medicine, electronics & more</span>
+      </h1>
+      <p>Search by store name, area, category or service (e.g., “print”, “UPI accepted”). Hardcoded demo data—you can plug your DB later.</p>
+
+      <div class="toolbar" style="margin-top:20px">
+        <div class="search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-4.2-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+          <input id="q" placeholder="Search stores, areas, categories..." autofocus>
+          <button class="btn" onclick="applyFilters()">Search</button>
+        </div>
+        <div class="chips" id="categories">
+          <button class="chip active" data-cat="all" onclick="selectCategory(this)">All</button>
+          <button class="chip" data-cat="grocery" onclick="selectCategory(this)">Grocery</button>
+          <button class="chip" data-cat="mobile" onclick="selectCategory(this)">Mobile & Repair</button>
+          <button class="chip" data-cat="pharmacy" onclick="selectCategory(this)">Pharmacy</button>
+          <button class="chip" data-cat="electronics" onclick="selectCategory(this)">Electronics</button>
+          <button class="chip" data-cat="print" onclick="selectCategory(this)">Print & Stationery</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stores Grid -->
+  <main class="wrap" id="stores">
+    <div class="grid" id="grid">
+
+      <!-- Each .card represents one store. Duplicate & edit to add more. -->
+
+      <article class="card" data-cat="grocery" data-meta="grocery food snacks dairy upi delivery khanna barhi">
+        <div class="thumb">FreshMart Grocery</div>
+        <div class="body">
+          <div class="title">
+            <h3>FreshMart Grocery</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Ward 15, Khanna</span>
+            <span>⏰ 8am – 10pm</span>
+            <span>💳 UPI Accepted</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Milk & Dairy</span>
+            <span class="tag">Snacks</span>
+            <span class="tag">Home Delivery</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('FreshMart Grocery','Grocery & daily needs','https://maps.google.com/?q=FreshMart+Grocery+Khanna','tel:+910000000000','https://wa.me/910000000000')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=FreshMart+Grocery+Khanna" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="mobile" data-meta="mobile repair accessories tempered glass charging data cable khanna barhi">
+        <div class="thumb">Khanna Mobile Care</div>
+        <div class="body">
+          <div class="title">
+            <h3>Khanna Mobile Care</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Near Bus Stand, Khanna</span>
+            <span>⏰ 10am – 9pm</span>
+            <span>🔧 Repairs</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Screen Guard</span>
+            <span class="tag">Covers</span>
+            <span class="tag">Fast Charging</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('Khanna Mobile Care','Mobile accessories & repair','https://maps.google.com/?q=Khanna+Mobile+Care','tel:+919876543210','https://wa.me/919876543210')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=Khanna+Mobile+Care" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="print" data-meta="print xerox photocopy spiral binding lamination id card photo barhi">
+        <div class="thumb">Barhi Stationery & Prints</div>
+        <div class="body">
+          <div class="title">
+            <h3>Barhi Stationery &amp; Prints</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Main Market, Barhi</span>
+            <span>⏰ 9am – 8pm</span>
+            <span>🖨️ Prints &amp; Xerox</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Online Form</span>
+            <span class="tag">Photo Print</span>
+            <span class="tag">Lamination</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('Barhi Stationery & Prints','Print, xerox & form filling','https://maps.google.com/?q=Barhi+Stationery+and+Prints','tel:+911234567890','https://wa.me/911234567890')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=Barhi+Stationery+and+Prints" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="electronics" data-meta="electronics tv fan mixer iron barhi khanna">
+        <div class="thumb">Sharma Electronics</div>
+        <div class="body">
+          <div class="title">
+            <h3>Sharma Electronics</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Market Road, Khanna</span>
+            <span>⏰ 10am – 8:30pm</span>
+            <span>💳 Card & UPI</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Fans</span>
+            <span class="tag">Mixers</span>
+            <span class="tag">LED TVs</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('Sharma Electronics','Electronics & appliances','https://maps.google.com/?q=Sharma+Electronics+Khanna','tel:+919111111111','https://wa.me/919111111111')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=Sharma+Electronics+Khanna" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="pharmacy" data-meta="medicine pharmacy injection first aid barhi 24x7">
+        <div class="thumb">City Medico</div>
+        <div class="body">
+          <div class="title">
+            <h3>City Medico Pharmacy</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Near Hospital, Barhi</span>
+            <span>⏰ 7am – 11pm</span>
+            <span>🚚 Home Delivery</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Prescription</span>
+            <span class="tag">OTC</span>
+            <span class="tag">BP/Sugar Check</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('City Medico Pharmacy','Medicines & health essentials','https://maps.google.com/?q=City+Medico+Barhi','tel:+919222222222','https://wa.me/919222222222')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=City+Medico+Barhi" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="grocery" data-meta="kirana ration pulses rice oil ward 15 upi">
+        <div class="thumb">Pandey General Store</div>
+        <div class="body">
+          <div class="title">
+            <h3>Pandey General Store</h3>
+            <span class="badge">Open</span>
+          </div>
+          <div class="meta">
+            <span>📍 Ward 15, Khanna</span>
+            <span>⏰ 7:30am – 9:30pm</span>
+            <span>💳 UPI Accepted</span>
+          </div>
+          <div class="tags">
+            <span class="tag">Atta • Dal • Chawal</span>
+            <span class="tag">Toiletries</span>
+            <span class="tag">Snacks</span>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openStore('Pandey General Store','Kirana & daily needs','https://maps.google.com/?q=Pandey+General+Store+Khanna','tel:+919333333333','https://wa.me/919333333333')">View Details</button>
+            <a class="btn ghost" href="https://maps.google.com/?q=Pandey+General+Store+Khanna" target="_blank" rel="noreferrer">Map</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Modal for Store Details -->
+  <dialog id="storeModal">
+    <div class="modal-head">
+      <strong id="mTitle">Store Name</strong>
+      <button class="close" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <p id="mDesc" style="margin:0 0 10px; color:var(--muted)">Description</p>
+      <div style="display:flex; gap:8px; flex-wrap:wrap">
+        <a id="mMap" class="btn" target="_blank" rel="noreferrer">Open in Maps</a>
+        <a id="mCall" class="btn ghost">Call</a>
+        <a id="mWa" class="btn ghost" target="_blank" rel="noreferrer">WhatsApp</a>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div>
+        © <span id="yr"></span> InternetWaliDukan — All rights reserved.
+      </div>
+      <div>
+        Built with ❤️ by <span class="founder">Abhishek Pandey</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Category filter
+    let currentCategory = 'all';
+    function selectCategory(btn){
+      document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = btn.dataset.cat;
+      applyFilters();
+    }
+
+    // Search
+    const q = document.getElementById('q');
+    q.addEventListener('input', ()=> applyFilters());
+
+    function applyFilters(){
+      const term = q.value.trim().toLowerCase();
+      const cards = [...document.querySelectorAll('.card')];
+      let visible = 0;
+      cards.forEach(card=>{
+        const cat = card.getAttribute('data-cat');
+        const meta = card.getAttribute('data-meta').toLowerCase();
+        const inCat = currentCategory==='all' || currentCategory===cat;
+        const inText = !term || meta.includes(term) || card.querySelector('h3').textContent.toLowerCase().includes(term);
+        const show = inCat && inText;
+        card.style.display = show ? '' : 'none';
+        if(show) visible++;
+      });
+      if(!document.getElementById('empty')){
+        const em = document.createElement('div');
+        em.id='empty';
+        em.style.cssText='grid-column:span 12; text-align:center; padding:28px; color:var(--muted); border:1px dashed rgba(255,255,255,.08); border-radius:16px; display:none;';
+        em.textContent = 'No stores found. Try a different search.';
+        document.getElementById('grid').appendChild(em);
+      }
+      document.getElementById('empty').style.display = visible? 'none':'block';
+    }
+
+    // Modal controls
+    const modal = document.getElementById('storeModal');
+    function openStore(title, desc, map, tel, wa){
+      document.getElementById('mTitle').textContent = title;
+      document.getElementById('mDesc').textContent = desc;
+      document.getElementById('mMap').href = map;
+      document.getElementById('mCall').href = tel;
+      document.getElementById('mWa').href = wa;
+      if(typeof modal.showModal === 'function') modal.showModal(); else alert(title + '\n' + desc);
+    }
+    function closeModal(){ modal.close(); }
+
+    // Keyboard: close modal on Esc
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && modal.open) closeModal(); });
+
+    // Initial filter to ensure empty state works
+    applyFilters();
+  </script>
+</body>
+</html>

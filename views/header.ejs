@@ -1,1 +1,467 @@
-.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>InternetWaliDukan — Local Stores Near You</title>
+  <meta name="description" content="Discover nearby stores and services on InternetWaliDukan." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b1220;
+      --card: #0f172a;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --brand: #6ee7ff;       /* cyan */
+      --brand-2: #a78bfa;     /* purple */
+      --accent: #22d3ee;
+      --ok: #34d399;
+      --danger: #f43f5e;
+      --warning: #f59e0b;
+      --ring: rgba(110,231,255,.35);
+      --glass: rgba(255,255,255,.04);
+    }
+
+    *{box-sizing: border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(103,232,249,.18), transparent 60%),
+                  radial-gradient(900px 480px at 90% 10%, rgba(167,139,250,.18), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      letter-spacing:.1px;
+    }
+
+    /* Header */
+    .nav{
+      position:sticky; top:0; z-index:30;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(9,12,20,.85), rgba(9,12,20,.55));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-inner{
+      max-width:1100px; margin:auto; padding:14px 20px; display:flex; align-items:center; gap:16px;
+    }
+    .logo{
+      font-weight:800; letter-spacing:.4px; font-size:1.2rem; display:flex; align-items:center; gap:8px;
+      cursor:pointer; user-select:none;
+    }
+    .logo-badge{display:inline-grid; place-items:center; width:28px; height:28px; border-radius:9px; background:linear-gradient(135deg,var(--brand),var(--brand-2)); font-weight:800; color:#0b1220}
+    .nav-links{margin-left:auto; display:flex; gap:16px; align-items:center}
+    .nav-links a{
+      text-decoration:none; color:var(--text); opacity:.8; padding:8px 12px; border-radius:12px;
+      transition:.25s ease; border:1px solid transparent;
+    }
+    .nav-links a:hover{opacity:1; border-color: rgba(255,255,255,.08); background:var(--glass)}
+    .cta{
+      background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#0b1220 !important; font-weight:700;
+      border:none !important;
+    }
+
+    /* Hero */
+    .hero{ max-width:1100px; margin:28px auto 0; padding:36px 20px 8px; display:grid; gap:24px; }
+    .hero-card{
+      position:relative; overflow:hidden; border-radius:24px; padding:32px; background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .sparkle{position:relative; inset:-2px; background: conic-gradient(from 180deg at 50% 50%, rgba(110,231,255,.2), rgba(167,139,250,.2), transparent 30% 70%, rgba(110,231,255,.2)); filter: blur(35px); opacity:.35;}
+    .hero h1{margin:0; font-size:clamp(1px, 3.5vw, 24px); line-height:1.1}
+    .hero p{margin:6px 0 0; color:var(--muted)}
+
+    /* Typewriter */
+    .type{ display:inline; border-right:2px solid var(--accent); white-space:normal; overflow:hidden;
+      width:0; animation: typing 3.8s steps(48,end) forwards, blink 2.1s step-end infinite; }
+    @keyframes typing{ to{ width:100% } }
+    @keyframes blink{ 50%{ border-color:transparent } }
+
+    /* Search + Filters */
+    .toolbar{ display:grid; grid-template-columns: 1.2fr .8fr; gap:14px; margin-top:18px }
+    .search{ display:flex; gap:10px; align-items:center; background:var(--card); padding:10px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.06)}
+    .search input{ flex:1; background:transparent; border:none; outline:none; color:var(--text); font-size:15px }
+    .chips{ display:flex; flex-wrap:wrap; gap:8px; align-items:center }
+    .chip{ padding:8px 12px; border-radius:999px; background:var(--glass);color:whitesmoke; border:1px solid rgba(255,255,255,.08); font-size:13px; cursor:pointer; opacity:.9; }
+    .chip.active{ background:linear-gradient(135deg, rgba(110,231,255,.25), rgba(167,139,250,.25)); border-color:var(--ring) }
+
+    /* Grid */
+    .wrap{ max-width:1100px; margin:0 auto; padding:10px 20px 60px }
+    .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap:18px; margin-top:18px }
+    .card{
+      grid-column: span 4; min-width:0; background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:20px;
+      overflow:hidden; position:relative; transition:transform .25s ease, box-shadow .25s ease;
+    }
+    .card:hover{ transform: translateY(-4px); box-shadow: 0 16px 30px rgba(0,0,0,.35) }
+.thumb {
+  aspect-ratio: 16 / 9;
+  
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  font-size: 22px;
+  color: #ffffff00;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Overlay gradient for text readability */
+.thumb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.5));
+}
+
+/* Keep text above overlay */
+.thumb span {
+  z-index: 1;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+
+/* Hover effect */
+.thumb:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+    .body{ padding:14px 14px 12px }
+    .title{ display:flex; align-items:center; justify-content:space-between; gap:10px }
+    .title h3{ margin:0; font-size:18px }
+    .badge{ font-size:11px; padding:6px 9px; border-radius:999px; background:rgba(52,211,153,.18); border:1px solid rgba(52,211,153,.35) }
+    .meta{ margin-top:6px; display:flex; gap:8px; flex-wrap:wrap; color:var(--muted); font-size:13px }
+    .tags{ margin-top:10px; display:flex; gap:8px; flex-wrap:wrap }
+    .tag{ font-size:11px; padding:6px 9px; border-radius:999px; background:var(--glass); border:1px solid rgba(255,255,255,.08) }
+    .actions{ margin-top:12px; display:flex; gap:8px; flex-wrap:wrap }
+    .btn{ padding:10px 12px; font-weight:700; border-radius:12px; background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0b1220; border:none; cursor:pointer }
+    .btn.ghost{ background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.12) }
+
+    /* Footer */
+    footer{ border-top:1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); }
+    .footer-inner{ max-width:1100px; margin:auto; padding:22px 20px; display:flex; align-items:center; gap:10px; justify-content:space-between; color:var(--muted) }
+    .founder{ color:var(--text) }
+
+    /* Modal */
+    dialog{ border:none; border-radius:20px; padding:0; background:var(--card); color:var(--text); width:min(560px, 92vw); box-shadow:0 20px 60px rgba(0,0,0,.55); }
+    .modal-head{ padding:16px 18px; border-bottom:1px solid rgba(255,255,255,.06); display:flex; align-items:center; justify-content:space-between }
+    .modal-body{ padding:18px }
+    .close{ background:transparent; border:1px solid rgba(255,255,255,.12); color:var(--text); padding:8px 10px; border-radius:10px; cursor:pointer }
+
+    /* Responsive */
+    @media (max-width: 960px){ .card{ grid-column: span 6 } .toolbar{ grid-template-columns: 1fr } }
+    @media (max-width: 640px){ .card{ grid-column: span 12 } .nav-links{ display:none } .hero-card{ padding:22px } }
+  </style>
+</head>
+<body>
+
+<!-- Main Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Go to top">
+      <span class="logo-badge">I</span> InternetWaliDukan
+    </div>
+
+    <!-- Desktop Links -->
+    <div class="nav-links desktop-only">
+    <a  onclick="window.location.href='/';" href="#">Home</a>
+      <a href="/#stores">Stores</a>
+      <a href="/#categories">Categories</a>
+      	<a href="#" onclick="window.location.href='/login';">Login</a>
+      <a href="#contact" class="cta">List Your Store</a>
+
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="hamburger mobile-only" id="menuToggle" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Side Menu -->
+<aside id="sideNav" class="side-nav" aria-hidden="true">
+  <nav>
+    <a href="#" onclick="window.location.href='/';closeSideNav()">Home</a>
+    <a href="/#stores" onclick="closeSideNav()">Stores</a>
+    <a href="/#categories" onclick="closeSideNav()">Categories</a>
+    <a href='#' onclick="window.location.href='/login';closeSideNav()">Login</a>
+    <a href="/#contact" class="cta" onclick="closeSideNav()">List Your Store</a>
+
+  </nav>
+</aside>
+
+<!-- Dim Overlay -->
+<div id="overlay" class="overlay" tabindex="-1"></div>
+
+<style>
+  :root {
+    --nav-bg: rgba(20, 20, 20, 0.75);
+    --nav-blur: 12px;
+    --nav-text: #fff;
+    --cta-bg: #ff5722;
+  }
+
+  /* Layout Helpers */
+  .desktop-only { display: flex; }
+  .mobile-only { display: none; }
+  @media (max-width: 640px) {
+    .desktop-only { display: none; }
+    .mobile-only { display: flex; }
+  }
+
+  /* Nav Base */
+  .nav {
+    background: var(--nav-bg);
+    backdrop-filter: blur(var(--nav-blur));
+    color: var(--nav-text);
+    padding: 0.7rem 1.2rem;
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  .logo-badge {
+    background: var(--cta-bg);
+    color: #fff;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    margin-right: 5px;
+  }
+  .nav-links a {
+    margin-left: 1.2rem;
+    text-decoration: none;
+    color: var(--nav-text);
+  }
+  .cta {
+    background: var(--cta-bg);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    color: #fff !important;
+  }
+
+  /* Hamburger Icon */
+  .hamburger {
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 28px;
+    height: 22px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+  .hamburger span {
+    display: block;
+    height: 3px;
+    background: var(--nav-text);
+    border-radius: 3px;
+    transition: 0.4s;
+  }
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  /* Side Nav Panel */
+  .side-nav {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 260px;
+    height: 100%;
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(var(--nav-blur));
+    box-shadow: -4px 0 15px rgba(0,0,0,0.4);
+    padding: 4rem 1.2rem;
+    transition: right 0.4s ease;
+    z-index: 2100;
+  }
+  .side-nav nav a {
+    display: block;
+    padding: 0.8rem 0;
+    color: var(--nav-text);
+    text-decoration: none;
+    font-size: 1.05rem;
+    transition: color 0.2s;
+  }
+  .side-nav nav a:hover {
+    color: var(--cta-bg);
+  }
+  .side-nav.open {
+    right: 0;
+  }
+
+  /* Overlay */
+  .overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s;
+    z-index: 2050;
+  }
+  .overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+</style>
+
+<script>
+  const menuToggle = document.getElementById("menuToggle");
+  const sideNav = document.getElementById("sideNav");
+  const overlay = document.getElementById("overlay");
+
+  menuToggle.addEventListener("click", toggleSideNav);
+  overlay.addEventListener("click", closeSideNav);
+
+  function toggleSideNav() {
+    const isOpen = sideNav.classList.contains("open");
+    menuToggle.classList.toggle("active", !isOpen);
+    sideNav.classList.toggle("open", !isOpen);
+    overlay.classList.toggle("active", !isOpen);
+    sideNav.setAttribute("aria-hidden", isOpen);
+  }
+  function closeSideNav() {
+    menuToggle.classList.remove("active");
+    sideNav.classList.remove("open");
+    overlay.classList.remove("active");
+    sideNav.setAttribute("aria-hidden", "true");
+  }
+</script>
+
+
+
+<script>
+/* ---------- Tiny Cart Core (no deps) ---------- */
+const Cart = (() => {
+  const KEY = "iwd_cart_v1";
+  const read = () => JSON.parse(localStorage.getItem(KEY) || "{}");
+  const write = (state) => localStorage.setItem(KEY, JSON.stringify(state));
+  const getCount = (state = read()) => Object.values(state).reduce((a,b)=>a+b,0);
+
+  const setQty = (id, qty) => {
+    const s = read();
+    if (qty <= 0) { delete s[id]; } else { s[id] = qty; }
+    write(s);
+    window.dispatchEvent(new CustomEvent("cart:change", { detail: { state: s, count: getCount(s) }}));
+    return s;
+  };
+
+  const inc = (id, step=1) => {
+    const s = read();
+    const n = (s[id] || 0) + step;
+    return setQty(id, n);
+  };
+
+  return { read, write, setQty, inc, getCount };
+})();
+
+/* ---------- Wire up any .product-card ---------- */
+function mountProductCards(root = document) {
+  root.querySelectorAll(".product-card").forEach(card => {
+    if (card.__wired) return; // avoid double-binding
+    card.__wired = true;
+
+    const id = card.dataset.id;
+    const name = card.dataset.name || "Item";
+    const price = Number(card.dataset.price || 0);
+
+    // Find or create action area
+    let btn = card.querySelector(".add-to-cart");
+    if (!btn) {
+      btn = document.createElement("button");
+      btn.className = "add-to-cart";
+      btn.textContent = "🛒 Add to Cart";
+      card.appendChild(btn);
+    }
+
+    // Create qty controls (hidden until added)
+    const controls = document.createElement("div");
+    controls.className = "qty-controls";
+    controls.innerHTML = `
+      <button type="button" class="qty-dec" aria-label="Decrease">−</button>
+      <span class="qty-val">1</span>
+      <button type="button" class="qty-inc" aria-label="Increase">+</button>
+    `;
+    controls.style.display = "none";
+    btn.insertAdjacentElement("afterend", controls);
+
+    const dec = controls.querySelector(".qty-dec");
+    const inc = controls.querySelector(".qty-inc");
+    const val = controls.querySelector(".qty-val");
+
+    const syncUI = () => {
+      const qty = Cart.read()[id] || 0;
+      if (qty > 0) {
+        btn.style.display = "none";
+        controls.style.display = "inline-flex";
+        val.textContent = qty;
+      } else {
+        btn.style.display = "inline-block";
+        controls.style.display = "none";
+      }
+    };
+
+    // Events
+    btn.addEventListener("click", () => {
+      Cart.inc(id, 1);
+      // Optional: toast
+      // console.log(`Added ${name} (₹${price})`);
+      syncUI();
+    });
+
+    inc.addEventListener("click", () => {
+      Cart.inc(id, 1);
+      syncUI();
+    });
+
+    dec.addEventListener("click", () => {
+      const s = Cart.read();
+      const next = (s[id] || 0) - 1;
+      Cart.setQty(id, next);
+      syncUI();
+    });
+
+    // Initial UI based on saved cart
+    syncUI();
+  });
+}
+
+/* ---------- Optional: Navbar badge updater ---------- */
+/* Example badge element: <span id="cart-badge">0</span> */
+(function setupCartBadge(){
+  const badge = document.getElementById("cart-badge");
+  if (!badge) return;
+  const render = (count = Cart.getCount()) => badge.textContent = count;
+  window.addEventListener("cart:change", (e) => render(e.detail.count));
+  render();
+})();
+
+/* Mount on load */
+document.addEventListener("DOMContentLoaded", () => mountProductCards());
+</script>
+
