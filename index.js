@@ -18,4 +18,23 @@ const renderPage = (page, options = {}) => (req, res) => {
 app.get('/',renderPage('int'));
 app.get('/login',renderPage('log'));
 
-app.listen(80);
+app.use((req,res,next)=>{
+    res.end(`
+    <html>
+    <hr>
+    <center>because of updation some routes are under mentinance..... "use this for Home <a onclick='window.location.href="/"'>Go To Home</a>" </center>
+    </hr>
+    `);
+})
+
+//app.listen(80);
+  app.listen(
+  { port: process.env.PORT, host: "0.0.0.0" },
+  function (err, address) {
+    if (err) {
+      //console.error(err);
+      process.exit(1);
+    }
+   // console.log(`Your app is listening on ${address}`);
+  }
+);
