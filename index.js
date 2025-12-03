@@ -27,8 +27,8 @@ app.use((req,res,next)=>{
     `);
 })
 
-//app.listen(80);
-  app.listen(
+app.listen(80);
+/*  app.listen(
   { port: process.env.PORT, host: "0.0.0.0" },
   function (err, address) {
     if (err) {
@@ -38,3 +38,4 @@ app.use((req,res,next)=>{
    // console.log(`Your app is listening on ${address}`);
   }
 );
+*/
