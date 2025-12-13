@@ -26,9 +26,7 @@ app.use((req,res,next)=>{
     </hr>
     `);
 })
-
-app.listen(80);
-/*  app.listen(
+  app.listen(
   { port: process.env.PORT, host: "0.0.0.0" },
   function (err, address) {
     if (err) {
@@ -38,4 +36,5 @@ app.listen(80);
    // console.log(`Your app is listening on ${address}`);
   }
 );
-*/
+
+
