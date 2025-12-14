@@ -30,6 +30,9 @@ app.use((req,res,next)=>{
     </hr>
     `);
 })
+
+module.exports = app;
+/*
   app.listen(
   { port: process.env.PORT, host: "0.0.0.0" },
   function (err, address) {
@@ -41,6 +44,7 @@ app.use((req,res,next)=>{
   }
 );
 
+*/
 
 
 
