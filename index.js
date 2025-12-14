@@ -15,6 +15,10 @@ const renderPage = (page, options = {}) => (req, res) => {
   });
 };
 
+app.get('/newone',(req,res)=>{
+    res.end('working');
+});
+
 app.get('/',renderPage('int'));
 app.get('/login',renderPage('log'));
 
@@ -36,5 +40,6 @@ app.use((req,res,next)=>{
    // console.log(`Your app is listening on ${address}`);
   }
 );
+
 
 
