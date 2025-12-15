@@ -14,12 +14,13 @@ const renderPage = (page, options = {}) => (req, res) => {
  //   user // pass user to template
   });
 };
-
+/*
 app.get('/',(req,res)=>{
     res.end('working page');
 });
 
-//app.get('/',renderPage('int'));
+//*/
+app.get('/',renderPage('int'));
 app.get('/login',renderPage('log'));
 
 app.use((req,res,next)=>{
@@ -45,6 +46,7 @@ module.exports = app;
 );
 
 */
+
 
 
 
